@@ -1,6 +1,7 @@
 package com.jibeesh.productinfo.controller;
 
 import com.jibeesh.productinfo.entity.Product;
+import com.jibeesh.productinfo.exception.ProductNotFoundException;
 import com.jibeesh.productinfo.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -8,7 +9,6 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class ProductController {
@@ -25,9 +25,10 @@ public class ProductController {
 
     @GetMapping(value = "/products/{id}")
     @Cacheable(value = "products", key = "#id")
-    public Optional<Product> getProductById(@PathVariable(name = "id") Integer id) {
+    public Product getProductById(@PathVariable(name = "id") Integer id) throws ProductNotFoundException {
         System.out.println("Data from database" + id);
-        return productRepository.findById(id);
+        return productRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException("Product is not found with id : "+ id));
     }
 
     @PostMapping(value = "/products")
