@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping(value = "/v1/api")
 public class ProductController {
 
     @Autowired
@@ -31,8 +32,8 @@ public class ProductController {
                 .orElseThrow(() -> new ProductNotFoundException("Product is not found with id : "+ id));
     }
 
-    @PostMapping(value = "/products")
-    @CachePut(value = "products", key = "#id")
+    @PostMapping(value = "/product")
+    @CachePut(value = "products", key = "#product.id")
     public List<Product> saveProduct(@RequestBody Product product) {
         System.out.println("Save data........");
         productRepository.save(product);
@@ -47,8 +48,8 @@ public class ProductController {
         return productRepository.findAll();
     }
 
-    @PutMapping(value = "/products")
-    @CachePut(value = "products", key = "#id")
+    @PutMapping(value = "/product")
+    @CachePut(value = "products", key = "#product.id")
     public List<Product> updateProduct(@RequestBody Product product) {
         System.out.println("Update data........");
         productRepository.save(product);
