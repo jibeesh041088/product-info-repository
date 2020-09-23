@@ -20,6 +20,7 @@ public class ProductController {
     @Cacheable(value = "products")
     public List<Product> getAllProducts() {
         System.out.println("Get All Data.......");
+        System.out.println("Test");
         return productRepository.findAll();
     }
 
