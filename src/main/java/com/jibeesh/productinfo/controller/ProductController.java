@@ -21,7 +21,7 @@ public class ProductController {
     @Cacheable(value = "products")
     public List<Product> getAllProducts() {
         System.out.println("Get All Data.......");
-        System.out.println("Test Example");
+        System.out.println("Test Example2334");
         return productRepository.findAll();
     }
 
