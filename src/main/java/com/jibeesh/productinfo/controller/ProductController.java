@@ -7,7 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -55,5 +59,10 @@ public class ProductController {
         System.out.println("Update data........");
         productRepository.save(product);
         return productRepository.findAll();
+    }
+
+    @GetMapping(value = "/getDate")
+    public String dateTimeParam(@Validated @RequestParam(name = "start_date") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'") LocalDateTime localDateTime) {
+        return "Test success";
     }
 }
